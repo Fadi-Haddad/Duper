@@ -14,4 +14,9 @@ defmodule Duper.Results do
     |> Enum.filter(fn {_hash, path_list} -> length(path_list) >=2 end)
     |> Enum.map(fn {hash, _path_list} -> hash end)
   end
+
+  def handle_cast({:add, path, hash}, results) do
+    results = Map.update(results, hash, [path], fn existing -> [path | existing] end)
+    {:noreply, results}
+  end
 end
