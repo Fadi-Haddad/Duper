@@ -1,5 +1,24 @@
 defmodule Duper.Results do
+
   use GenServer
+
+  @name __MODULE__
+
+## Interface
+
+  def start_link(_) do
+    GenServer.start_link(__MODULE__, nil, name: @name)
+  end
+
+  def add_hash_for(path, hash) do
+    GenServer.cast(@name, {:add, path, hash})
+  end
+
+  def find_duplicates() do
+    GenServer.call(@name, :find_duplicates)
+  end
+
+## Implementation
 
   def init(_) do
     {:ok, %{}}
